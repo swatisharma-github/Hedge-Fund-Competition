@@ -45,15 +45,10 @@ regData$id <- sub('\\..*', '', regData$id)    # renames tickers from id.US.Equit
 drugData <- read.csv("https://www.dropbox.com/s/3cojxq6xfstspml/drugData.csv?dl=1")
 
 drugData <- drugData[,-c(1,2)]
-colnames(drugData)<-unlist(drugData[1,]) 
-drugData <- drugData[-1,]
-
 colnames(drugData)[1] <- "id"     # renames ticker name id
 
 drugData$Date <- mdy(drugData$Date)
 regData$Date <- mdy(regData$Date)
-
-#combData <- inner_join(drugData,regData, by = c("id","Date"))
 
 combData <- full_join(regData,drugData, by = c("id","Date"))     # merges two datasets by id and Date, keeping all rows
 
@@ -174,10 +169,5 @@ ggplot(temp, aes(x = Date, y = changeReturn, color = id)) +
   geom_hline(yintercept = 0) + 
   theme_tufte() 
 
-#labs(title="Negative Shock in Stock Returns after Drug Failure", 
-#       subtitle="Changes in Stock Returns of Company with Failed Drugs",
-#       caption="Source: Bloomberg and FDA Drug Release Calendar",
-#       x = "Time in year 2017",
-#       y = "Changes in Return")
 
 
